@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean class="org.apache.solr.client.solrj.impl.HttpSolrClient">
+        <constructor-arg value="http://www.vm.com:8080/solr/new_core" name="baseURL"/>
+    </bean>
+    <!--集群版-->
+    <!--<bean class="org.apache.solr.client.solrj.impl.CloudSolrClient">-->
+    <!--<constructor-arg name="zkHost" value="www.vm.com:2281,www.vm.com:2282,www.vm.com:2283"/>-->
+    <!--<property name="defaultCollection" value="collection2"/>-->
+    <!--</bean>-->
+</beans>
