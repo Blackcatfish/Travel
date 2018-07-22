@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.travel.manager.dao.HotelDao">
+    <insert id="addHotel">
+    insert into HOTEL(TITLE,PRICE,CONTENT,BED_NUM,CITY_ID,CITY_NAME,LONGITUDE,LATITUDE,IMAGE,STATUS)
+values(#{title},#{price},#{content},#{bedNum},#{cityId},#{cityName},#{longitude},#{latitude},#{image},#{status})
+    </insert>
+    <update id="updateHotel">
+        update hotel
+        <set>
+            <if test="title !=null and title!=''">TITLE=#{title},</if>
+            <if test="price !=null">PRICE=#{price},</if>
+            <if test="content !=null and content!=''">CONTENT=#{content},</if>
+            <if test="bedNum !=null">BED_NUM=#{bedNum},</if>
+            <if test="cityId !=null">CITY_ID=#{cityId},</if>
+            <if test="cityName !=null and cityName!=''">CITY_NAME=#{cityName},</if>
+            <if test="longitude !=null">LONGITUDE=#{longitude},</if>
+            <if test="latitude !=null">LATITUDE=#{latitude},</if>
+            <if test="image !=null and image!=''">IMAGE=#{image},</if>
+            <if test="status !=null">STATUS=#{status},</if>
+        </set>
+        where ID=#{id}
+    </update>
+    <select id="getHotel" parameterType="int" resultType="Hotel">
+        select ID,TITLE,PRICE,CONTENT,BED_NUM,CITY_ID,CITY_NAME,LONGITUDE,LATITUDE,IMAGE,STATUS
+        from HOTEL
+        where ID=#{id}
+    </select>
+
+    <!--获取列表，因为content中数据较多，所以列表中不查询所有字段。-->
+    <select id="getHotelList" parameterType="Hotel" resultType="Hotel">
+        select ID,TITLE,PRICE,CITY_NAME,IMAGE,STATUS
+        from HOTEL
+        <where>
+            <if test="id !=null">and ID=#{id}</if>
+            <if test="title !=null and title!=''">and TITLE like concat('%',#{title},'%')</if>
+            <if test="cityId !=null">and CITY_ID=#{cityId}</if>
+        </where>
+        order by ID desc
+    </select>
+    <delete id="deleteHotel">
+        delete from hotel where ID=#{id}
+    </delete>
+</mapper>

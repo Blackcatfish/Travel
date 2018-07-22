@@ -1,0 +1,9 @@
+com\travel\common\utils\JsonUtil.class
+com\travel\common\utils\JedisClientCluster.class
+com\travel\common\utils\JedisClient.class
+com\travel\common\pojo\User.class
+com\travel\common\pojo\City.class
+com\travel\common\pojo\IndexAdv.class
+com\travel\common\utils\JedisClientPool.class
+com\travel\common\utils\Constants.class
+com\travel\common\pojo\Hotel.class

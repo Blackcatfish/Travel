@@ -1,0 +1,5 @@
+com\travel\manager\exception\TravelExceptionHandler.class
+com\travel\manager\util\FastDFSClient.class
+com\travel\manager\contorller\CityController.class
+com\travel\manager\contorller\HotelController.class
+com\travel\manager\contorller\IndexAdvController.class

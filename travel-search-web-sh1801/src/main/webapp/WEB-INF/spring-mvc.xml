@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:component-scan base-package="com.travel.search.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--配置返回值转换器-->
+    <bean id="contentNegotiationManagerFactoryBean"
+          class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <!--是否支持后缀匹配-->
+        <property name="favorPathExtension" value="false"/>
+        <!--是否支持参数匹配-->
+        <property name="favorParameter" value="false"/>
+        <!--是否accept-header匹配-->
+        <property name="ignoreAcceptHeader" value="false"/>
+        <!--支持json格式-->
+        <property name="mediaTypes">
+            <map>
+                <entry key="json" value="application/json"/>
+            </map>
+        </property>
+    </bean>
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManagerFactoryBean">
+        <!--String返回值默认编码是ISO-8859-1，需要-->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <!--<mvc:resources mapping="/media/**" location="/media"/>-->
+    <!-- 配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"></property><!--前缀-->
+        <property name="suffix" value=".jsp"></property><!--后缀-->
+    </bean>
+
+    <!-- 引用dubbo服务 -->
+    <dubbo:application name="travel-search-web"/>
+    <dubbo:registry protocol="zookeeper" address="www.vm.com:2181"/>
+    <dubbo:reference interface="com.travel.index.service.HotelIndexService" id="hotelIndexService"/>
+    <dubbo:reference interface="com.travel.manager.service.HotelService" id="hotelService"/>
+</beans>
